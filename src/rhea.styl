@@ -1,0 +1,56 @@
+:root
+	--fg-hsl        0,   0%,  100%
+	--bg-hsl        0,   0%,  0%
+	--accent-hsl    80,  60%, 40%
+	--accent-fg-hsl 0,   0%,  100%
+
+	--threat-low-hsl    120, 50%,  40%
+	--threat-medium-hsl 40,  100%, 40%
+	--threat-high-hsl   0,   100%, 40%
+
+	--threat-low-fg-hsl    0, 0%, 100%
+	--threat-medium-fg-hsl 0, 0%, 100%
+	--threat-high-fg-hsl   0, 0%, 100%
+
+	--fg        @css { hsl(var(--fg-hsl)) }
+	--bg        @css { hsl(var(--bg-hsl)) }
+	--accent    @css { hsl(var(--accent-hsl)) }
+	--accent-fg @css { hsl(var(--accent-fg-hsl)) }
+
+	--threat-low    @css{ hsl(var(--threat-low-hsl)) }
+	--threat-medium @css{ hsl(var(--threat-medium-hsl)) }
+	--threat-high   @css{ hsl(var(--threat-high-hsl)) }
+
+	--threat-low-fg    @css{ hsl(var(--threat-low-fg-hsl)) }
+	--threat-medium-fg @css{ hsl(var(--threat-medium-fg-hsl)) }
+	--threat-high-fg   @css{ hsl(var(--threat-high-fg-hsl)) }
+
+	--border-radius 0.1rem
+
+*
+	-webkit-tap-highlight-color transparent
+	box-sizing                  border-box
+
+
+html
+	background-color var(--bg)
+	color            var(--fg)
+	display          flex
+	font-family      sans-serif
+	font-size        10pt
+	font-weight      400
+	justify-content  center
+
+
+#View
+	display         flex
+	height          100vh
+	justify-content center
+	align-items     center
+	margin          auto
+	overflow        auto
+	padding         0
+	width           100vw
+
+
+@import('./features/**/*')

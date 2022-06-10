@@ -1,0 +1,89 @@
+.Calculator
+	display   flex
+	flex-flow column
+
+
+.Calculator-logo
+	background-color      transparent
+	background-image      url('./assets/logo.svg')
+	background-position-x 0
+	background-position-y -20px
+	background-repeat     no-repeat
+	display               block
+	height                20px
+	margin                2rem auto
+	width                 60px
+
+
+.Calculator-controls
+	display   flex
+	flex-flow row
+	flex-wrap nowrap
+
+	li
+		display   flex
+		flex-flow column
+		flex-grow 1
+		padding   1rem
+
+
+	label
+		display    flex
+		flex-flow  column
+		text-align center
+
+
+	span
+		padding-bottom 1rem
+
+
+	input
+		background-color @css { hsla(var(--fg-hsl), 0.05) }
+		border           solid 2px @css { hsla(var(--fg-hsl), 0.1) }
+		border-radius    var(--border-radius)
+		color            var(--fg)
+		display          flex
+		font             inherit
+		margin           0
+		opacity          0.8
+		outline          0
+		padding          1rem
+		text-align       center
+
+		&:hover
+		&:focus
+			opacity 1
+
+		&:focus
+			background-color @css { hsla(var(--accent-hsl), 0.1) }
+			border           solid 2px var(--accent)
+			color            var(--fg)
+
+
+.Calculator-jumps-total input:focus
+		background-color @css { hsla(var(--threat-low-hsl), 0.1) }
+		border           solid 2px var(--threat-low)
+		color            var(--threat-low-fg)
+
+
+.Calculator-jumps-lowsec input:focus
+		background-color @css { hsla(var(--threat-medium-hsl), 0.1) }
+		border           solid 2px var(--threat-medium)
+		color            var(--threat-medium-fg)
+
+
+.Calculator-jumps-nullsec input:focus
+		background-color @css { hsla(var(--threat-high-hsl), 0.1) }
+		border           solid 2px var(--threat-high)
+		color            var(--threat-high-fg)
+
+
+.Calculator-do-submit
+	margin 1rem 0
+
+
+.Calculator-quote
+	display         flex
+	font-size       3rem
+	justify-content center
+	padding         2rem
