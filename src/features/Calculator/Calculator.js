@@ -68,10 +68,10 @@
 		jumpsNullsec ||= 0;
 
 		const jumpModifier   = getJumpModifier({ jumps, jumpsLowsec, jumpsNullsec });
-		const volumeModifier = jumpModifier * Math.sqrt(volume     / THOUSAND);
-		const collatModifier = jumpModifier * Math.sqrt(collateral / MILLION);
+		const volumeModifier = Math.sqrt(volume     / THOUSAND);
+		const collatModifier = Math.sqrt(collateral / MILLION);
 
-		const quote = (volumeModifier + collatModifier + jumpModifier) * MILLION;
+		const quote = (volumeModifier + collatModifier) * jumpModifier * MILLION;
 
 		return quote;
 	}
