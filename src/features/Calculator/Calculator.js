@@ -16,10 +16,15 @@
 		const root = document.importNode(TEMPLATE.content, true).firstChild;
 
 		const dom = {
-			quote: root.querySelector('.Calculator-quote'),
+			quote:  root.querySelector('.Calculator-quote'),
+			inputs: root.querySelectorAll('input'),
 		};
 
 		root.addEventListener('submit', doSubmit);
+
+		Array.from(dom.inputs).forEach((input) => {
+			input.addEventListener('focus', () => input.select(), { passive: true });
+		});
 
 		return {
 			render
