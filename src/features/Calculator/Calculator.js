@@ -48,9 +48,6 @@
 				jumpsNullsec,
 			});
 
-
-			console.log({ quote });
-
 			dom.quote.textContent = humaniseNumber(quote, 'ISK');
 		}
 
@@ -100,9 +97,7 @@
 
 
 	function parseNumber(string) {
-		const parsed = parseInt(string.replace(/[^0-9]+/gi, ''), 10) || 0;
-		console.log('parseNumber', { string, parsed });
-		return parsed;
+		return parseInt(string.replace(/[^0-9]+/gi, ''), 10) || 0;
 	}
 
 
@@ -110,8 +105,8 @@
 		const absolute = Math.abs(number);
 
 		if (absolute >= TRILLION) { return `${(number / TRILLION).toFixed(1)} trillion ${unit || ''}`.trim(); }
-		if (absolute >= BILLION)  { return `${(number /  BILLION).toFixed(1)} billion ${unit || ''}`.trim(); }
-		if (absolute >= MILLION)  { return `${(number /  MILLION).toFixed(1)} million ${unit || ''}`.trim(); }
+		if (absolute >= BILLION)  { return `${(number /  BILLION).toFixed(1)} billion ${unit  || ''}`.trim(); }
+		if (absolute >= MILLION)  { return `${(number /  MILLION).toFixed(1)} million ${unit  || ''}`.trim(); }
 		if (absolute >= THOUSAND) { return `${(number / THOUSAND).toFixed(1)} thousand ${unit || ''}`.trim(); }
 
 		return `${(number).toFixed(1)} ${unit || ''}`.trim();
