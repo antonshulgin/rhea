@@ -1,6 +1,6 @@
 {
   "name": "RHEA",
-  "version": "12.06.22",
+  "version": "16.06.22",
   "description": "Reasonable Haul Estimation Assistant (for Eve Online)",
   "private": true,
   "main": "index.js",
