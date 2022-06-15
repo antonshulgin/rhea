@@ -4,95 +4,97 @@
 	const TEMPLATE = document.getElementById('templateCalculator');
 
 	const THOUSAND = 1_000;
-	const MILLION  = 1_000 * THOUSAND;
-	const BILLION  = 1_000 * MILLION;
-	const TRILLION = 1_000 * BILLION;
+	const MILLION  = THOUSAND * THOUSAND;
+	const BILLION  = THOUSAND * MILLION;
+	const TRILLION = THOUSAND * BILLION;
 
-	const MODIFIER_HISEC   = 1 / 9;
-	const MODIFIER_LOWSEC  = 1 / 6;
-	const MODIFIER_NULLSEC = 1 / 3;
+	const MODIFIER_HISEC   = 1;
+	const MODIFIER_LOWSEC  = 2;
+	const MODIFIER_NULLSEC = 3;
 
-	R.Calculator = () => {
-		const root = document.importNode(TEMPLATE.content, true).firstChild;
+	R.Calculator = (params = new URLSearchParams(location.search)) => {
+		const form = document.importNode(TEMPLATE.content, true).firstChild;
 
 		const dom = {
-			quote:  root.querySelector('.Calculator-quote'),
-			inputs: root.querySelectorAll('input'),
+			quote:  form.querySelector('.Calculator-quote'),
+			inputs: form.querySelectorAll('input'),
 		};
-
-		root.addEventListener('submit', doSubmit);
 
 		Array.from(dom.inputs).forEach((input) => {
 			input.addEventListener('focus', () => input.select(), { passive: true });
 		});
 
+		mathItOut(params);
+
 		return {
-			render
+			mathItOut,
+			render,
 		};
 
 
-		function doSubmit(event) {
-			event?.preventDefault?.();
+		function mathItOut(params = new URLSearchParams(location.search)) {
+			const haul = {};
 
-			const volume       = parseNumber(root.volume.value);
-			const collateral   = parseNumber(root.collateral.value);
-			const jumps        = parseNumber(root.jumpsTotal.value);
-			const jumpsLowsec  = parseNumber(root.jumpsLowsec.value);
-			const jumpsNullsec = parseNumber(root.jumpsNullsec.value);
-
-			const quote = calculateQuote({
-				volume,
-				collateral,
-				jumps,
-				jumpsLowsec,
-				jumpsNullsec,
+			params.forEach((value, name) => {
+				haul[name]       = parseNumber(value);
+				form[name].value = value;
 			});
 
-			dom.quote.textContent = humaniseNumber(quote, 'ISK');
+			dom.quote.textContent = humaniseNumber(calculateQuote(haul), 'ISK');
 		}
 
 
-		function render() { return root; }
+		function render() { return form; }
 	};
 
 
+	// https://www.desmos.com/calculator/zmedvyh7se
+	// https://www.desmos.com/calculator/qfawcnemng
+
 	function calculateQuote({
-		volume       = 1,
-		collateral   = 1,
-		jumps        = 1,
-		jumpsLowsec  = 0,
-		jumpsNullsec = 0,
+		volume,
+		collateral,
+		jumps,
+		jumpsLowsec,
+		jumpsNullsec,
 	}) {
-		volume       ||= 1;
-		collateral   ||= 1;
-		jumps        ||= 1;
+		volume       ||= 0;
+		collateral   ||= 0;
+		jumps        ||= 0;
 		jumpsLowsec  ||= 0;
 		jumpsNullsec ||= 0;
 
-		const jumpModifier   = getJumpModifier({ jumps, jumpsLowsec, jumpsNullsec });
-		const volumeModifier = Math.sqrt(volume     / THOUSAND);
-		const collatModifier = Math.sqrt(collateral / MILLION);
+		const jumpModifier      = getJumpModifier({ jumps, jumpsLowsec, jumpsNullsec });
+		const volumeCollatRatio = getVolumeCollatRatio({ volume, collateral });
 
-		const quote = (volumeModifier + collatModifier) * jumpModifier * MILLION;
+		const quote = jumpModifier * volumeCollatRatio * MILLION;
+
+		console.log('calculateQuote', { jumpModifier, volumeCollatRatio, quote });
 
 		return quote;
 	}
 
 
-	function getJumpModifier({
-		jumps        = 1,
-		jumpsLowsec  = 0,
-		jumpsNullsec = 0,
-	}) {
-		jumps        ||= 1;
+	function getVolumeCollatRatio({ volume, collateral }) {
+		volume     ||= 0;
+		collateral ||= 0;
+
+		return Math.sqrt((volume / THOUSAND) + Math.sqrt(collateral / MILLION));
+	}
+
+
+	function getJumpModifier({ jumps, jumpsLowsec, jumpsNullsec }) {
+		jumps        ||= 0;
 		jumpsLowsec  ||= 0;
 		jumpsNullsec ||= 0;
 
-		return Math.sqrt(
-			(MODIFIER_HISEC   * (jumps - jumpsLowsec - jumpsNullsec)) +
-			(MODIFIER_LOWSEC  * jumpsLowsec)                          +
-			(MODIFIER_NULLSEC * jumpsNullsec)
-		);
+		if (jumps === 0) { return 0; }
+
+		const hs = MODIFIER_HISEC   * (jumps - jumpsLowsec - jumpsNullsec);
+		const ls = MODIFIER_LOWSEC  * jumpsLowsec;
+		const ns = MODIFIER_NULLSEC * jumpsNullsec;
+
+		return Math.sqrt(jumps) * ((hs + ls + ns) / jumps);
 	}
 
 
