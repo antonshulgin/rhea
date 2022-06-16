@@ -49,7 +49,7 @@
 
 
 	// https://www.desmos.com/calculator/zmedvyh7se
-	// https://www.desmos.com/calculator/qfawcnemng
+	// https://www.desmos.com/calculator/wmkngdihzl
 
 	function calculateQuote({
 		volume,
@@ -64,26 +64,29 @@
 		jumpsLowsec  ||= 0;
 		jumpsNullsec ||= 0;
 
-		const jumpModifier      = getJumpModifier({ jumps, jumpsLowsec, jumpsNullsec });
-		const volumeCollatRatio = getVolumeCollatRatio({ volume, collateral });
+		const distanceModifier = getDistanceModifier({ jumps, jumpsLowsec, jumpsNullsec });
+		const valueModifier    = getValueModifier({ volume, collateral });
 
-		const quote = jumpModifier * volumeCollatRatio * MILLION;
+		const quote = distanceModifier * valueModifier * MILLION;
 
-		console.log('calculateQuote', { jumpModifier, volumeCollatRatio, quote });
+		console.log('calculateQuote', { distanceModifier, valueModifier, quote });
 
 		return quote;
 	}
 
 
-	function getVolumeCollatRatio({ volume, collateral }) {
+	function getValueModifier({ volume, collateral }) {
 		volume     ||= 0;
 		collateral ||= 0;
 
-		return Math.sqrt((volume / THOUSAND) + Math.sqrt(collateral / MILLION));
+		return (
+			Math.sqrt((volume / THOUSAND) + Math.sqrt(collateral / MILLION)) *
+			(1 + (volume / MILLION))
+		);
 	}
 
 
-	function getJumpModifier({ jumps, jumpsLowsec, jumpsNullsec }) {
+	function getDistanceModifier({ jumps, jumpsLowsec, jumpsNullsec }) {
 		jumps        ||= 0;
 		jumpsLowsec  ||= 0;
 		jumpsNullsec ||= 0;
