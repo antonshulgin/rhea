@@ -60,22 +60,28 @@
 			color            var(--fg)
 
 
-.Calculator-jumps-total input:focus
-		background-color @css { hsla(var(--threat-low-hsl), 0.1) }
-		border           solid 2px var(--threat-low)
-		color            var(--threat-low-fg)
+.Calculator-jumps-lowsec
 
-
-.Calculator-jumps-lowsec input:focus
+	input
 		background-color @css { hsla(var(--threat-medium-hsl), 0.1) }
-		border           solid 2px var(--threat-medium)
+		border           solid 2px @css { hsla(var(--threat-medium-hsl), 0.5) }
 		color            var(--threat-medium-fg)
 
+	input:focus
+		background-color @css { hsla(var(--threat-medium-hsl), 0.2) }
+		border           solid 2px @css { hsla(var(--threat-medium-hsl), 1.0) }
 
-.Calculator-jumps-nullsec input:focus
+
+.Calculator-jumps-nullsec
+
+	input
 		background-color @css { hsla(var(--threat-high-hsl), 0.1) }
-		border           solid 2px var(--threat-high)
+		border           solid 2px @css { hsla(var(--threat-high-hsl), 0.5) }
 		color            var(--threat-high-fg)
+
+	input:focus
+		background-color @css { hsla(var(--threat-high-hsl), 0.2) }
+		border           solid 2px @css { hsla(var(--threat-high-hsl), 1.0) }
 
 
 .Calculator-do-submit
@@ -84,6 +90,7 @@
 
 .Calculator-quote
 	display         flex
-	font-size       3rem
+	font-size       2rem
 	justify-content center
 	padding         2rem
+	text-align      center
