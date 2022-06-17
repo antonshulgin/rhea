@@ -34,7 +34,7 @@
 
 
 	span
-		padding-bottom 1rem
+		padding-bottom 0.5rem
 
 
 	input
@@ -61,6 +61,7 @@
 
 
 .Calculator-jumps-lowsec
+	color var(--threat-medium)
 
 	input
 		background-color @css { hsla(var(--threat-medium-hsl), 0.1) }
@@ -73,6 +74,7 @@
 
 
 .Calculator-jumps-nullsec
+	color var(--threat-high)
 
 	input
 		background-color @css { hsla(var(--threat-high-hsl), 0.1) }
@@ -90,7 +92,7 @@
 
 .Calculator-quote
 	border           dashed 2px @css { hsla(var(--accent-hsl), 0.1) }
-	border-radius    0.5rem
+	border-radius    var(--border-radius)
 	color            var(--fg)
 	display          flex
 	font-size        2rem
