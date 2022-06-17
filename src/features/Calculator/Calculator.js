@@ -9,8 +9,8 @@
 	const TRILLION = THOUSAND * BILLION;
 
 	const MODIFIER_HISEC   = 1;
-	const MODIFIER_LOWSEC  = 2;
-	const MODIFIER_NULLSEC = 3;
+	const MODIFIER_LOWSEC  = 3;
+	const MODIFIER_NULLSEC = 4;
 
 	R.Calculator = (params = new URLSearchParams(location.search)) => {
 		const form = document.importNode(TEMPLATE.content, true).firstChild;
@@ -48,9 +48,7 @@
 	};
 
 
-	// https://www.desmos.com/calculator/zmedvyh7se
-	// https://www.desmos.com/calculator/wmkngdihzl
-
+	// https://www.desmos.com/calculator/xpyyfvfzqd
 	function calculateQuote({
 		volume,
 		collateral,
@@ -58,46 +56,48 @@
 		jumpsLowsec,
 		jumpsNullsec,
 	}) {
-		volume       ||= 0;
-		collateral   ||= 0;
-		jumps        ||= 0;
-		jumpsLowsec  ||= 0;
-		jumpsNullsec ||= 0;
+		const haul = {
+			volume:       volume       || 0,
+			collateral:   collateral   || 0,
+			jumps:        jumps        || 0,
+			jumpsLowsec:  jumpsLowsec  || 0,
+			jumpsNullsec: jumpsNullsec || 0,
+		};
 
-		const distanceModifier = getDistanceModifier({ jumps, jumpsLowsec, jumpsNullsec });
-		const valueModifier    = getValueModifier({ volume, collateral });
+		const bulk  = getBulkModifier(haul);
+		const value = getValueModifier(haul);
+		const route = getRouteModifier(haul);
 
-		const quote = distanceModifier * valueModifier * MILLION;
+		const quote = bulk * value * route;
 
-		console.log('calculateQuote', { distanceModifier, valueModifier, quote });
+		console.log('calculateQuote', { haul, quote, bulk, value, route });
 
 		return quote;
 	}
 
 
-	function getValueModifier({ volume, collateral }) {
-		volume     ||= 0;
-		collateral ||= 0;
+	function getRouteModifier({ jumps, jumpsLowsec, jumpsNullsec }) {
+		const hisec   = MODIFIER_HISEC   * (jumps - jumpsLowsec - jumpsNullsec);
+		const lowsec  = MODIFIER_LOWSEC  * jumpsLowsec;
+		const nullsec = MODIFIER_NULLSEC * jumpsNullsec;
 
-		return (
-			Math.sqrt((volume / THOUSAND) + Math.sqrt(collateral / MILLION)) *
-			(1 + (volume / MILLION))
-		);
+		const routeModifier = Math.sqrt(jumps) * ((hisec + lowsec + nullsec) / jumps);
+
+		return routeModifier || 0;
 	}
 
 
-	function getDistanceModifier({ jumps, jumpsLowsec, jumpsNullsec }) {
-		jumps        ||= 0;
-		jumpsLowsec  ||= 0;
-		jumpsNullsec ||= 0;
+	function getValueModifier({ volume, collateral }) {
+		const valueModifier = Math.sqrt((volume * 1e-3) + Math.sqrt(collateral * 1e-3));
 
-		if (jumps === 0) { return 0; }
+		return valueModifier || 0;
+	}
 
-		const hs = MODIFIER_HISEC   * (jumps - jumpsLowsec - jumpsNullsec);
-		const ls = MODIFIER_LOWSEC  * jumpsLowsec;
-		const ns = MODIFIER_NULLSEC * jumpsNullsec;
 
-		return Math.sqrt(jumps) * ((hs + ls + ns) / jumps);
+	function getBulkModifier({ volume }) {
+		const bulkModifier = 1e5 + ((volume / Math.sqrt(volume)) * 1e3);
+
+		return bulkModifier || 0;
 	}
 
 
