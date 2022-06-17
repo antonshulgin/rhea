@@ -21,7 +21,7 @@
 		};
 
 		Array.from(dom.inputs).forEach((input) => {
-			input.addEventListener('focus', () => input.select(),     { passive: true });
+			input.addEventListener('focus', () => input.select(),                { passive: true });
 			input.addEventListener('keyup', () => prepareQuote(parseForm(form)), { passive: true });
 		});
 
