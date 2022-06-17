@@ -12,7 +12,7 @@
 	const MODIFIER_LOWSEC  = 3;
 	const MODIFIER_NULLSEC = 4;
 
-	R.Calculator = (params = new URLSearchParams(location.search)) => {
+	R.Calculator = (params = {}) => {
 		const form = document.importNode(TEMPLATE.content, true).firstChild;
 
 		const dom = {
@@ -21,24 +21,39 @@
 		};
 
 		Array.from(dom.inputs).forEach((input) => {
-			input.addEventListener('focus', () => input.select(), { passive: true });
+			input.addEventListener('focus', () => input.select(),     { passive: true });
+			input.addEventListener('keyup', () => prepareQuote(parseForm(form)), { passive: true });
 		});
 
-		mathItOut(params);
+		prepareQuote(params);
 
 		return {
-			mathItOut,
+			prepareQuote,
 			render,
 		};
 
 
-		function mathItOut(params = new URLSearchParams(location.search)) {
-			const haul = {};
+		function parseForm(form) {
+			const params = [ ...form.elements ].reduce((out, element) => {
+				if (!element?.name) { return out; }
+				out[element.name] = element.value;
+				return out;
+			}, {});
 
-			params.forEach((value, name) => {
-				haul[name]       = parseNumber(value);
-				form[name].value = value;
-			});
+			return params;
+		}
+
+
+		function prepareQuote(params = {}) {
+			const haul = {
+				volume:       parseNumber(params.volume),
+				collateral:   parseNumber(params.collateral),
+				jumps:        parseNumber(params.jumps),
+				jumpsLowsec:  parseNumber(params.jumpsLowsec),
+				jumpsNullsec: parseNumber(params.jumpsNullsec),
+			};
+
+			Object.entries(params).forEach(([ param, value ]) => { form[param].value = value; });
 
 			dom.quote.textContent = humaniseNumber(calculateQuote(haul), 'ISK');
 		}
@@ -70,8 +85,6 @@
 
 		const quote = bulk * value * route;
 
-		console.log('calculateQuote', { haul, quote, bulk, value, route });
-
 		return quote;
 	}
 
@@ -102,7 +115,7 @@
 
 
 	function parseNumber(string) {
-		return parseInt(string.replace(/[^0-9]+/gi, ''), 10) || 0;
+			return (string && parseInt(string.replace(/[^0-9]+/gi, ''), 10)) || 0;
 	}
 
 
