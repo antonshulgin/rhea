@@ -1,6 +1,7 @@
 .Calculator
 	display   flex
 	flex-flow column
+	max-width 50rem
 
 
 .Calculator-logo
@@ -34,7 +35,7 @@
 
 
 	span
-		padding-bottom 0.5rem
+		padding-top 0.5rem
 
 
 	input
@@ -84,10 +85,6 @@
 	input:focus
 		background-color @css { hsla(var(--threat-high-hsl), 0.2) }
 		border           solid 2px @css { hsla(var(--threat-high-hsl), 1.0) }
-
-
-.Calculator-do-submit
-	margin 1rem 0
 
 
 .Calculator-quote

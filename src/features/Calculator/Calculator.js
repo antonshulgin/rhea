@@ -3,22 +3,20 @@
 
 	const TEMPLATE = document.getElementById('templateCalculator');
 
-	const THOUSAND = 1_000;
-	const MILLION  = THOUSAND * THOUSAND;
-	const BILLION  = THOUSAND * MILLION;
-	const TRILLION = THOUSAND * BILLION;
-
-	const MODIFIER_HISEC   = 1;
-	const MODIFIER_LOWSEC  = 3;
-	const MODIFIER_NULLSEC = 4;
+	const MODIFIER_HISEC   = 0.5;
+	const MODIFIER_LOWSEC  = 1.5;
+	const MODIFIER_NULLSEC = 3;
 
 	R.Calculator = (params = {}) => {
 		const form = document.importNode(TEMPLATE.content, true).firstChild;
 
 		const dom = {
-			quote:  form.querySelector('.Calculator-quote'),
 			inputs: form.querySelectorAll('input'),
+			route:  form.querySelector('.Calculator-route'),
+			quote:  form.querySelector('.Calculator-quote'),
 		};
+
+		form.addEventListener('submit', (event) => { event.preventDefault(); });
 
 		Array.from(dom.inputs).forEach((input) => {
 			input.addEventListener('focus', () => input.select(),                { passive: true });
@@ -46,16 +44,18 @@
 
 		function prepareQuote(params = {}) {
 			const haul = {
-				volume:       parseNumber(params.volume),
-				collateral:   parseNumber(params.collateral),
-				jumps:        parseNumber(params.jumps),
-				jumpsLowsec:  parseNumber(params.jumpsLowsec),
-				jumpsNullsec: parseNumber(params.jumpsNullsec),
+				volume:       R.parseNumber(params.volume)       || 0,
+				collateral:   R.parseNumber(params.collateral)   || 0,
+				jumps:        R.parseNumber(params.jumps)        || 0,
+				jumpsLowsec:  R.parseNumber(params.jumpsLowsec)  || 0,
+				jumpsNullsec: R.parseNumber(params.jumpsNullsec) || 0,
 			};
+
+			console.log('prepareQuote', { params, haul });
 
 			Object.entries(params).forEach(([ param, value ]) => { form[param].value = value; });
 
-			dom.quote.textContent = humaniseNumber(calculateQuote(haul), 'ISK');
+			dom.quote.textContent = R.humaniseNumber(calculateQuote(haul), 'ISK');
 		}
 
 
@@ -63,7 +63,7 @@
 	};
 
 
-	// https://www.desmos.com/calculator/xpyyfvfzqd
+	// https://www.desmos.com/calculator/kbrd46pe0x
 	function calculateQuote({
 		volume,
 		collateral,
@@ -111,23 +111,6 @@
 		const bulkModifier = 1e5 + ((volume / Math.sqrt(volume)) * 1e3);
 
 		return bulkModifier || 0;
-	}
-
-
-	function parseNumber(string) {
-			return (string && parseInt(string.replace(/[^0-9]+/gi, ''), 10)) || 0;
-	}
-
-
-	function humaniseNumber(number = 0, unit = undefined) {
-		const absolute = Math.abs(number);
-
-		if (absolute >= TRILLION) { return `${(number / TRILLION).toFixed(1)} trillion ${unit || ''}`.trim(); }
-		if (absolute >= BILLION)  { return `${(number /  BILLION).toFixed(1)} billion ${unit  || ''}`.trim(); }
-		if (absolute >= MILLION)  { return `${(number /  MILLION).toFixed(1)} million ${unit  || ''}`.trim(); }
-		if (absolute >= THOUSAND) { return `${(number / THOUSAND).toFixed(1)} thousand ${unit || ''}`.trim(); }
-
-		return `${(number).toFixed(1)} ${unit || ''}`.trim();
 	}
 
 })(window.R);

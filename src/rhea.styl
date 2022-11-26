@@ -1,3 +1,15 @@
+@keyframes blink
+	0%   { opacity: 0.6; }
+	50%  { opacity: 0.4; }
+	100% { opacity: 0.6; }
+
+
+@keyframes blonk
+	0%   { opacity: 1;   letter-spacing: 0rem; }
+	33%  { opacity: 0.6; letter-spacing: 0.1rem; }
+	100% { opacity: 1;   letter-spacing: 0rem; }
+
+
 :root
 	--fg-hsl        0,  0%,   100%
 	--bg-hsl        0,  0%,   0%
@@ -27,6 +39,10 @@
 
 	--border-radius 2rem
 
+	--animation-blink blink 0.5s infinite ease
+	--animation-blonk blonk 0.5s infinite ease
+
+
 *
 	-webkit-tap-highlight-color transparent
 	box-sizing                  border-box
@@ -43,14 +59,30 @@ html
 
 
 #View
+	align-items     center
 	display         flex
 	height          100vh
 	justify-content center
-	align-items     center
 	margin          auto
 	overflow        auto
-	padding         1rem
+	padding         2rem
 	width           100vw
+
+
+.animation-blink { animation: var(--animation-blink); }
+.animation-blonk { animation: var(--animation-blonk); }
+
+
+.hidden
+	display none !important
+
+
+.busy
+	animation        var(--animation-blink)
+	background-color inherit !important
+	color            inherit !important
+	cursor           auto
+	pointer-events   none
 
 
 @import('./features/**/*')

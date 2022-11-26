@@ -5,29 +5,25 @@ template#templateCalculator
 		ul.Calculator-controls
 			li
 				label.Calculator-label
-					span Volume, m3
 					input(name='volume' type='text' required)
+					span Volume, m3
 			li
 				label.Calculator-label
-					span Collateral, ISK
 					input(name='collateral' type='text' required)
+					span Collateral, ISK
 
 		ul.Calculator-controls
 			li
 				label.Calculator-jumps-total
-					span Jumps total
 					input(name='jumps' type='text' required)
+					span Jumps total
 			li
 				label.Calculator-jumps-lowsec
-					span Jumps through lowsec
 					input(name='jumpsLowsec' type='text')
+					span Jumps through lowsec
 			li
 				label.Calculator-jumps-nullsec
-					span Jumps through nullsec
 					input(name='jumpsNullsec' type='text')
-
-		ul.Calculator-controls
-			li.Calculator-do-submit
-				button(type='submit') Get quote
+					span Jumps through nullsec
 
 		div.Calculator-quote
