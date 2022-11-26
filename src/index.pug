@@ -9,7 +9,10 @@ html(lang='en')
 
 	body
 		div#View
+			h1.Logo(title='Reasonable Haul Estimation Assistant')
+			div#ViewBody
 
 		include ./features/Calculator/Calculator.pug
+		include ./features/Assets/Assets.pug
 
 		script(src='./bundle.js')

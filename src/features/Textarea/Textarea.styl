@@ -6,6 +6,7 @@ textarea
 	display          flex
 	font             inherit
 	line-height      1.25
+	resize           vertical
 	margin           0
 	opacity          0.8
 	outline          0
@@ -16,7 +17,6 @@ textarea
 		opacity 1
 
 	&:focus
-		background-color @css { hsla(var(--accent-hsl), 0.1) }
-		border           solid 2px var(--accent)
+		background-color @css { hsla(var(--fg-hsl), 0.1) }
+		border           solid 2px var(--fg)
 		color            var(--fg)
-

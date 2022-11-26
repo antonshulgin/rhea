@@ -18,17 +18,34 @@
 
 		form.addEventListener('submit', (event) => { event.preventDefault(); });
 
-		Array.from(dom.inputs).forEach((input) => {
+		[ ...dom.inputs ].forEach((input) => {
 			input.addEventListener('focus', () => input.select(),                { passive: true });
 			input.addEventListener('keyup', () => prepareQuote(parseForm(form)), { passive: true });
+			input.addEventListener('blur',  (event) => formatValue(event),       { passive: true });
 		});
 
 		prepareQuote(params);
 
 		return {
 			prepareQuote,
+			formatInputValues,
 			render,
+			getJumps,
 		};
+
+
+		function formatValue({ target }) {
+			target.value = R.formatNumber(target.value);
+		}
+
+
+		function getJumps() {
+			return {
+				jumps:        R.parseNumber(form.jumps.value)        || 0,
+				jumpsLowsec:  R.parseNumber(form.jumpsLowsec.value)  || 0,
+				jumpsNullsec: R.parseNumber(form.jumpsNullsec.value) || 0,
+			};
+		}
 
 
 		function parseForm(form) {
@@ -42,6 +59,11 @@
 		}
 
 
+		function formatInputValues() {
+			[ ...dom.inputs ].forEach((input) => { input.value = R.formatNumber(input.value); });
+		}
+
+
 		function prepareQuote(params = {}) {
 			const haul = {
 				volume:       R.parseNumber(params.volume)       || 0,
@@ -50,8 +72,6 @@
 				jumpsLowsec:  R.parseNumber(params.jumpsLowsec)  || 0,
 				jumpsNullsec: R.parseNumber(params.jumpsNullsec) || 0,
 			};
-
-			console.log('prepareQuote', { params, haul });
 
 			Object.entries(params).forEach(([ param, value ]) => { form[param].value = value; });
 
