@@ -43,7 +43,7 @@ TEMPLATES        += ./src/index.pug
 TEMPLATES_OUTPUT  = ./out
 
 PUG_CLI         = ./node_modules/pug-cli/index.js
-PUG_CLI_PARAMS += --obj ./package.json
+PUG_CLI_PARAMS += --obj ./SYSTEM_DATA/mapSolarSystems.json
 PUG_CLI_PARAMS += --out ./out
 
 templates:
@@ -85,6 +85,7 @@ serve:
 setup:
 	make clean
 	npm  install
+	cd ./SYSTEM_DATA/ && make systems
 
 
 clean:

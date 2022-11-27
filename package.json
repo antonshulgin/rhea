@@ -8,6 +8,7 @@
   "author": "Anton Shulgin",
   "license": "CC-BY-NC-ND-4.0",
   "devDependencies": {
+    "csvtojson": "2.0.10",
     "express": "4.17.1",
     "pug-cli": "1.0.0-alpha6",
     "reset-css": "5.0.1",

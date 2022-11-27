@@ -1,0 +1,21 @@
+script
+	| (() => {
+	| 	function mapByName(systems = []) {
+	| 		const mapped = systems
+	| 			.reduce((out, { solarSystemID, solarSystemName, security } = {}) => {
+	| 				out[solarSystemName] = Object.freeze({
+	| 					solarSystemName,
+	| 					solarSystemID: parseInt(solarSystemID) ?? undefined,
+	| 					security:      parseFloat(security)    ?? undefined,
+	| 				});
+	| 				return out;
+	| 			}, {})
+	| 		;
+	| 
+	| 		return Object.freeze(mapped);
+	| 	}
+	|
+	| 	window.SYSTEM_DATA = mapByName(
+	include ./mapSolarSystems.json
+	| 	);
+	| })();
