@@ -26,17 +26,20 @@
 
 		prepareQuote(params);
 
+		setTimeout(() => form.volume.focus());
+
 		return {
-			prepareQuote,
 			formatInputValues,
-			render,
+			getCollateral,
 			getJumps,
+			getVolume,
+			prepareQuote,
+			render,
 		};
 
 
-		function formatValue({ target }) {
-			target.value = R.formatNumber(target.value);
-		}
+		function getVolume()     { return R.parseNumber(form.volume.value)     || 0; }
+		function getCollateral() { return R.parseNumber(form.collateral.value) || 0; }
 
 
 		function getJumps() {
@@ -45,6 +48,11 @@
 				jumpsLowsec:  R.parseNumber(form.jumpsLowsec.value)  || 0,
 				jumpsNullsec: R.parseNumber(form.jumpsNullsec.value) || 0,
 			};
+		}
+
+
+		function formatValue({ target }) {
+			target.value = R.formatNumber(target.value);
 		}
 
 

@@ -42,11 +42,18 @@
 			ui.calculator.prepareQuote(haul);
 			ui.calculator.formatInputValues();
 		}
-	}
 
 
-	function calculateJumps(jumps) {
-		console.log('calculateJumps', { jumps });
+		function calculateJumps(jumps) {
+			const haul = {
+				volume:     ui.calculator.getVolume(),
+				collateral: ui.calculator.getCollateral(),
+				...jumps,
+			};
+
+			ui.calculator.prepareQuote(haul);
+			ui.calculator.formatInputValues();
+		}
 	}
 
 

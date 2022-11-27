@@ -79,9 +79,14 @@ body
 	display         flex
 	justify-content center
 
+
+	> *:not(:first-child)
+		border-left  dashed 2px @css { hsla(var(--fg-hsl), 0.1) }
+		margin-left  2rem
+		padding-left 2rem
+
 	.Calculator
-		flex-basis    60%
-		padding-right 2rem
+		flex-grow 1
 
 	.Assets
 		flex-basis 20%
