@@ -15,6 +15,41 @@
 	window.addEventListener('DOMContentLoaded', init, { once: true, passive: true });
 
 
+	function init() {
+		const ui = {
+			calculator: R.Calculator(parseParams()),
+			route:      R.Route({  onSubmit: calculateJumps }),
+			assets:     R.Assets({ onSubmit: calculateTotals }),
+		};
+
+		document
+			.getElementById('ViewBody')
+			.replaceChildren(
+				ui.calculator.render(),
+				ui.route.render(),
+				ui.assets.render(),
+			)
+		;
+
+
+		function calculateTotals(totals) {
+			const haul = {
+				volume:     totals.volume,
+				collateral: totals.price,
+				...ui.calculator.getJumps(),
+			};
+
+			ui.calculator.prepareQuote(haul);
+			ui.calculator.formatInputValues();
+		}
+	}
+
+
+	function calculateJumps(jumps) {
+		console.log('calculateJumps', { jumps });
+	}
+
+
 	function formatNumber(input = 0) {
 		const parsed = R.parseNumber(input) || '';
 
@@ -70,34 +105,6 @@
 			const parsed    = parseFloat(parseFloat(sanitised).toFixed(2)) || undefined;
 
 			return parsed;
-		}
-	}
-
-
-	function init() {
-		const ui = {
-			calculator: R.Calculator(parseParams()),
-			assets:     R.Assets({ onSubmit: calculateTotals }),
-		};
-
-		document
-			.getElementById('ViewBody')
-			.replaceChildren(
-				ui.assets.render(),
-				ui.calculator.render(),
-			)
-		;
-
-
-		function calculateTotals(totals) {
-			const haul = {
-				volume:     totals.volume,
-				collateral: totals.price,
-				...ui.calculator.getJumps(),
-			};
-
-			ui.calculator.prepareQuote(haul);
-			ui.calculator.formatInputValues();
 		}
 	}
 
