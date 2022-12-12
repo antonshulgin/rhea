@@ -48,7 +48,7 @@
 				const security = window.SYSTEM_DATA?.[system]?.security ?? undefined;
 
 				if (security <= 0.0) { out.jumpsNullsec += 1; return out; }
-				if (security <= 0.5) { out.jumpsLowsec  += 1; return out; }
+				if (security <  0.5) { out.jumpsLowsec  += 1; return out; }
 
 				return out;
 			}, {
