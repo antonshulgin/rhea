@@ -11,11 +11,15 @@ html(lang='en')
 		div#View
 			h1.Logo(title='Reasonable Haul Estimation Assistant')
 			div#ViewBody
+			footer.Footer
+				| Data from 
+				a(href='https://www.fuzzwork.co.uk/dump/latest/') Fuzzwork Enterprises
+				| .
 
 		include ./features/Calculator/Calculator.pug
 		include ./features/Assets/Assets.pug
 		include ./features/Route/Route.pug
 
-		include ../SYSTEM_DATA/SYSTEM_DATA.pug
+		include ../DATA/DATA.pug
 
 		script(src='./bundle.js')

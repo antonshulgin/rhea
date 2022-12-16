@@ -8,6 +8,8 @@
 	const REGEX_VOLUME   = /\t([^\t]+)m3\t/;
 	const REGEX_PRICE    = /\t([^\t]+)ISK/;
 
+	const API_ENDPOINT_EVE_TYCOON = 'https://evetycoon.com/api/v1';
+
 	R.Assets = (params = {}) => {
 		const form = document.importNode(TEMPLATE.content, true).firstChild;
 
@@ -18,10 +20,11 @@
 
 		form.addEventListener('submit', calculateTotals);
 
-		return {
+		return Object.freeze({
+			API_ENDPOINT_EVE_TYCOON,
 			render,
 			calculateTotals,
-		};
+		});
 
 
 		function getTotals(assets = []) {

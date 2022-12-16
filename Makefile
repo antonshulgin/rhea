@@ -20,6 +20,7 @@ build-release:
 
 release:
 	rm -rf ./docs
+	make setup
 	make build-release
 	mv ./out ./docs
 
@@ -43,7 +44,7 @@ TEMPLATES        += ./src/index.pug
 TEMPLATES_OUTPUT  = ./out
 
 PUG_CLI         = ./node_modules/pug-cli/index.js
-PUG_CLI_PARAMS += --obj ./SYSTEM_DATA/mapSolarSystems.json
+#PUG_CLI_PARAMS += --obj ./DATA/mapSolarSystems.json
 PUG_CLI_PARAMS += --out ./out
 
 templates:
@@ -85,9 +86,11 @@ serve:
 setup:
 	make clean
 	npm  install
-	cd ./SYSTEM_DATA/ && make systems
+	cd ./DATA/ && make systems
+	cd ./DATA/ && make items
 
 
 clean:
 	rm -rf ./out/
 	rm -rf ./node_modules/
+	cd ./DATA/ && make clean
