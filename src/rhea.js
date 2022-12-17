@@ -11,6 +11,7 @@
 	R.parseNumber    = parseNumber;
 	R.humaniseNumber = humaniseNumber;
 	R.formatNumber   = formatNumber;
+	R.roundUpTo      = roundUpTo;
 
 	window.addEventListener('DOMContentLoaded', init, { once: true, passive: true });
 
@@ -55,6 +56,9 @@
 			ui.calculator.formatInputValues();
 		}
 	}
+
+
+	function roundUpTo(input = 0, multiple = 1) { return Math.ceil(input / multiple) * multiple; }
 
 
 	function formatNumber(input = 0) {

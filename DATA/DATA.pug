@@ -1,6 +1,16 @@
-script
+script#DATA
 	| (() => {
-	| 	function mapByName(systems = []) {
+	| 	'use strict';
+	| 
+	| 	window.SYSTEM_DATA = mapSystemsByName(
+	include ./SYSTEM_DATA.json
+	| 	);
+	|
+	//-| 	window.ITEM_DATA = mapItemsByName(
+	//-include ./ITEM_DATA.json
+	//-| 	);
+	| 
+	| 	function mapSystemsByName(systems = []) {
 	| 		const mapped = systems
 	| 			.reduce((out, { solarSystemID, solarSystemName, security } = {}) => {
 	| 				out[solarSystemName] = Object.freeze({
@@ -15,11 +25,18 @@ script
 	| 		return Object.freeze(mapped);
 	| 	}
 	|
-	| 	window.SYSTEM_DATA = mapByName(
-	include ./mapSolarSystems.json
-	| 	);
-	|
-	| 	window.ITEM_DATA = (
-	include ./invTypes-nodescription.json
-	| 	);
+	//-| 	function mapItemsByName(items = []) {
+	//-| 		const mapped = items
+	//-| 			.reduce((out, { typeId, typeName } = {}) => {
+	//-| 				out[typeName] = Object.freeze({
+	//-| 					typeName,
+	//-| 					typeId: parseInt(typeId) ?? undefined,
+	//-| 				});
+	//-| 				return out;
+	//-| 			}, {})
+	//-| 		;
+	//-| 
+	//-| 		return Object.freeze(mapped);
+	//-| 	}
+	| 
 	| })();

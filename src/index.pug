@@ -4,17 +4,19 @@ html(lang='en')
 		meta(charset='utf-8')
 		meta(name='viewport' content='width=device-width, height=device-height')
 		link(rel='stylesheet' type='text/css' href='./bundle.css')
+		link(rel='icon' href='./assets/favicon.png')
 		title RHEA
 
 
 	body
 		div#View
 			h1.Logo(title='Reasonable Haul Estimation Assistant')
+
 			div#ViewBody
+
 			footer.Footer
-				| Data from 
-				a(href='https://www.fuzzwork.co.uk/dump/latest/') Fuzzwork Enterprises
-				| .
+				p Data from <a href='https://www.fuzzwork.co.uk/dump/latest/'>Fuzzwork Enterprises</a>.
+
 
 		include ./features/Calculator/Calculator.pug
 		include ./features/Assets/Assets.pug

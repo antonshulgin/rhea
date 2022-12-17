@@ -87,7 +87,7 @@ setup:
 	make clean
 	npm  install
 	cd ./DATA/ && make systems
-	cd ./DATA/ && make items
+	#cd ./DATA/ && make items
 
 
 clean:

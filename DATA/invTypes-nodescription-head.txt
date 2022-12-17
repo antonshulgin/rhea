@@ -1,0 +1,1 @@
+typeId,groupId,typeName,mass,volume,capacity,portionSize,raceId,basePrice,published,marketGroup,iconId,soundId,graphicId
