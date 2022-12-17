@@ -44,7 +44,7 @@ TEMPLATES        += ./src/index.pug
 TEMPLATES_OUTPUT  = ./out
 
 PUG_CLI         = ./node_modules/pug-cli/index.js
-#PUG_CLI_PARAMS += --obj ./DATA/mapSolarSystems.json
+PUG_CLI_PARAMS += --obj ./package.json
 PUG_CLI_PARAMS += --out ./out
 
 templates:
