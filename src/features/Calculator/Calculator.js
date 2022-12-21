@@ -3,7 +3,7 @@
 
 	const TEMPLATE = document.getElementById('templateCalculator');
 
-	const MODIFIER_HISEC   = 0.5;
+	const MODIFIER_HISEC   = 1;
 	const MODIFIER_LOWSEC  = 3;
 	const MODIFIER_NULLSEC = 4;
 
