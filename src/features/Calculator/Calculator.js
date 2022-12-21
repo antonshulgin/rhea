@@ -4,8 +4,8 @@
 	const TEMPLATE = document.getElementById('templateCalculator');
 
 	const MODIFIER_HISEC   = 0.5;
-	const MODIFIER_LOWSEC  = 1.5;
-	const MODIFIER_NULLSEC = 3;
+	const MODIFIER_LOWSEC  = 3;
+	const MODIFIER_NULLSEC = 4;
 
 	R.Calculator = (params = {}) => {
 		const form = document.importNode(TEMPLATE.content, true).firstChild;
