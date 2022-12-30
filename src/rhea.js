@@ -8,9 +8,10 @@
 	R.BILLION  = 1_000_000_000;
 	R.TRILLION = 1_000_000_000_000;
 
-	R.parseNumber    = parseNumber;
-	R.humaniseNumber = humaniseNumber;
 	R.formatNumber   = formatNumber;
+	R.humaniseNumber = humaniseNumber;
+	R.parseNumber    = parseNumber;
+	R.roundTo        = roundTo;
 	R.roundUpTo      = roundUpTo;
 
 	window.addEventListener('DOMContentLoaded', init, { once: true, passive: true });
@@ -58,7 +59,8 @@
 	}
 
 
-	function roundUpTo(input = 0, multiple = 1) { return Math.ceil(input / multiple) * multiple; }
+	function roundTo(input = 0,   multiple = 1) { return Math.round(input / multiple) * multiple; }
+	function roundUpTo(input = 0, multiple = 1) { return Math.ceil(input  / multiple) * multiple; }
 
 
 	function formatNumber(input = 0) {

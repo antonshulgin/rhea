@@ -43,12 +43,16 @@
 
 		function getJumps(systems = []) {
 			const jumps = systems.reduce((out, system) => {
+				const securityRaw = window.SYSTEM_DATA?.[system]?.security;
+
+				if (!Number.isFinite(securityRaw)) { return out; }
+
 				out.jumps += 1;
 
-				const security = window.SYSTEM_DATA?.[system]?.security ?? undefined;
+				const security = R.roundTo(securityRaw, 0.1);
 
-				if (security <= 0.0) { out.jumpsNullsec += 1; return out; }
-				if (security <  0.5) { out.jumpsLowsec  += 1; return out; }
+				if (security < 0.1) { out.jumpsNullsec += 1; return out; }
+				if (security < 0.5) { out.jumpsLowsec  += 1; return out; }
 
 				return out;
 			}, {
