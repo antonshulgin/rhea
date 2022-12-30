@@ -4,8 +4,8 @@
 	const TEMPLATE = document.getElementById('templateCalculator');
 
 	const MODIFIER_HISEC   = 1;
-	const MODIFIER_LOWSEC  = 3;
-	const MODIFIER_NULLSEC = 4;
+	const MODIFIER_LOWSEC  = 2;
+	const MODIFIER_NULLSEC = 3;
 
 	R.Calculator = (params = {}) => {
 		const form = document.importNode(TEMPLATE.content, true).firstChild;
@@ -80,6 +80,11 @@
 				jumpsLowsec:  R.parseNumber(params.jumpsLowsec)  || 0,
 				jumpsNullsec: R.parseNumber(params.jumpsNullsec) || 0,
 			};
+
+			if ((haul.jumpsLowsec + haul.jumpsNullsec) > haul.jumps) {
+				haul.jumps   = haul.jumpsLowsec + haul.jumpsNullsec;
+				params.jumps = haul.jumps;
+			}
 
 			Object.entries(params).forEach(([ param, value ]) => { form[param].value = value; });
 
