@@ -3,22 +3,23 @@
 
 	const TEMPLATE = document.getElementById('templateCalculator');
 
-	const MODIFIER_HISEC   = 1;
-	const MODIFIER_LOWSEC  = 2;
-	const MODIFIER_NULLSEC = 3;
+	const MODIFIER_HISEC   = 1.0;
+	const MODIFIER_LOWSEC  = 2.5;
+	const MODIFIER_NULLSEC = 4.0;
 
 	R.Calculator = (params = {}) => {
 		const form = document.importNode(TEMPLATE.content, true).firstChild;
 
 		const dom = {
-			inputs: form.querySelectorAll('input'),
-			route:  form.querySelector('.Calculator-route'),
-			quote:  form.querySelector('.Calculator-quote'),
+			inputs:  [ ...form.querySelectorAll('input') ],
+			route:   form.querySelector('.Calculator-route'),
+			outcome: form.querySelector('.Calculator-outcome'),
+			reward:  form.querySelector('.Calculator-reward'),
 		};
 
 		form.addEventListener('submit', (event) => { event.preventDefault(); });
 
-		[ ...dom.inputs ].forEach((input) => {
+		dom.inputs.forEach((input) => {
 			input.addEventListener('focus', () => input.select(),                { passive: true });
 			input.addEventListener('keyup', () => prepareQuote(parseForm(form)), { passive: true });
 			input.addEventListener('blur',  (event) => formatValue(event),       { passive: true });
@@ -68,7 +69,7 @@
 
 
 		function formatInputValues() {
-			[ ...dom.inputs ].forEach((input) => { input.value = R.formatNumber(input.value); });
+			dom.inputs.forEach((input) => { input.value = R.formatNumber(input.value); });
 		}
 
 
@@ -88,7 +89,15 @@
 
 			Object.entries(params).forEach(([ param, value ]) => { form[param].value = value; });
 
-			dom.quote.textContent = R.humaniseNumber(calculateQuote(haul), 'ISK');
+			const reward = calculateQuote(haul);
+
+			dom.outcome.dataset.expropriationLikely = (
+				Number.isFinite(reward) &&
+				(reward > 0)            &&
+				(reward >= haul.collateral)
+			);
+
+			dom.reward.textContent = R.humaniseNumber(reward, 'ISK');
 		}
 
 
@@ -96,7 +105,7 @@
 	};
 
 
-	// https://www.desmos.com/calculator/kbrd46pe0x
+	// https://www.desmos.com/calculator/kbrd46pe0x (security modifiers have changed)
 	function calculateQuote({
 		volume,
 		collateral,

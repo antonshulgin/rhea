@@ -73,13 +73,30 @@
 		border           solid 2px @css { hsla(var(--threat-high-hsl), 1.0) }
 
 
-.Calculator-quote
+.Calculator-outcome
 	border           dashed 2px @css { hsla(var(--fg-hsl), 0.1) }
 	border-radius    var(--border-radius)
-	color            var(--fg)
 	display          flex
-	font-size        2rem
+	color            var(--fg)
+	flex-flow        column
 	justify-content  center
 	margin           1rem
 	padding          2rem
 	text-align       center
+
+
+.Calculator-reward
+	font-size 2rem
+
+
+.Calculator-warning-expropriation
+	color       var(--threat-medium)
+	display     none
+	font-size   0.9rem
+	padding-top 1rem
+
+
+.Calculator-outcome[data-expropriation-likely='true']
+
+	.Calculator-warning-expropriation
+		display block
